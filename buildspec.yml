@@ -18,10 +18,11 @@ phases:
       - ls -al
       - pwd
       - export BUCKET=dev-cloudeng-lambda-pl-bucket-max
-      - aws ecr-public get-login-password  | docker login --username AWS --password-stdin public.ecr.aws
+      - docker login -u AWS -p $(aws ecr-public get-login-password) public.ecr.aws
+      # - aws ecr-public get-login-password  | docker login --username AWS --password-stdin public.ecr.aws
       - sam build
       # - sam package --image-repository 652052937334.dkr.ecr.us-east-1.amazonaws.com/sam-test:latest --template-file template.yml --output-template-file outputtemplate.yml --s3-bucket $BUCKET
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - docker login -u AWS -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - sam package --image-repository 652052937334.dkr.ecr.us-east-1.amazonaws.com/sam-test --output-template-file outputtemplate.yml --s3-bucket $BUCKET
       - sam deploy --template-file ./outputtemplate.yml --stack-name sam-dep-test-1 --capabilities CAPABILITY_IAM --image-repository 652052937334.dkr.ecr.us-east-1.amazonaws.com/sam-test
       # - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yml
