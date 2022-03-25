@@ -1,0 +1,9 @@
+# FROM public.ecr.aws/lambda/python:3.8
+FROM public.ecr.aws/lambda/nodejs:latest
+
+COPY app.js package.json ./
+
+RUN npm install
+
+# Overwrite the command by providing a different command directly in the template.
+CMD ["app.lambdaHandler"]
