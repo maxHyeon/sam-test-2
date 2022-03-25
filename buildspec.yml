@@ -10,7 +10,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - export AWS_DEFAULT_REGION=ap-northeast-2
+      - export AWS_DEFAULT_REGION=us-east-1
       - export AWS_ACCOUNT_ID=652052937334
       # - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
@@ -18,7 +18,7 @@ phases:
       - ls -al
       - pwd
       - export BUCKET=dev-cloudeng-lambda-pl-bucket-max
-      - aws ecr-public get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin public.ecr.aws
+      - aws ecr-public get-login-password  | docker login --username AWS --password-stdin public.ecr.aws
       - sam build
       # - sam package --image-repository 652052937334.dkr.ecr.us-east-1.amazonaws.com/sam-test:latest --template-file template.yml --output-template-file outputtemplate.yml --s3-bucket $BUCKET
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
